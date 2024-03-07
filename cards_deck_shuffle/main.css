@@ -1,0 +1,107 @@
+/**************************UNIVERSAL*****************************/
+:root{
+    --primary: #404040;
+    --lila: #B088A3;
+    --purple: #5C3B6E;
+    --lightGray: #D9D9D9;
+    --pinkBaby: #E6B0D9;
+    --green: #7F9A82;
+    --blueGray: #7991A1;
+    --lightBrown: #BFA67E;
+    --clasicGolden: #ffd700;
+    --ambar: #ffbf00;
+    --goldenRose: #ffbb86;
+    --champang: #ffecb3;
+    --bronce: #cd7f32;
+    --champangLight: #f5f5dc;
+    --marfil: #fff8e7;
+    --pearlChampagne: #eae0c8;
+    --honeyChampgange: #d3b590;
+    --oldWhite: #faebd7;
+    --blackmate: #1a1a1a;
+    --carbon: #202020;
+    --shadow: drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.781));
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-size: 1rem;
+    background-image: url('./assets/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    font-family: "Domine", serif;
+}
+
+/**************************MAIN MENU*****************************/
+
+.mainMenu{
+    background: var(--goldenRose);
+    filter: var(--shadow);
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.mainMenu_Card, .ripple-btn{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    background-image: url('./assets/img/texture.svg');
+    background-size: 50rem;
+    background-position: 50%;
+    background-repeat: repeat;
+    background-color: var(--ambar);
+
+    min-height: 100px;
+    max-height: 100px;
+    min-width: 70px;
+    max-width: 70px;
+    margin: 0.5rem;
+    border-radius: 0.1rem;
+    filter: var(--shadow);
+    cursor: pointer;
+    padding: 0.5rem;
+    overflow: hidden;
+}
+
+.mainMenu_Card .mainMenu_Card--cardSymbol{
+    font-size: 1.4rem;
+}
+
+.mainMenu_Card .mainMenu_Card--cardTitle{
+    font-size: 0.8rem;
+}
+
+.mainMenu_Card:hover{
+    transform:scale(1.05)
+}
+
+.mainMenu_Card:active{
+    transform:scale(1);
+    background-color: var(--clasicGolden);
+}
+
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: ripple-animation 0.8s linear;
+}
+  
+@keyframes ripple-animation {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
