@@ -80,15 +80,7 @@ function ManageMessages(message) {
 
     setTimeout(function () {
         messagesStack.pop();
-
-        messageBoxHtml.innerHTML = "";
-
-        messagesStack.forEach(messageOfStack => {
-            const individualMessage = document.createElement('p');
-            individualMessage.classList.add(messageOfStack.class);
-            individualMessage.innerHTML = `${messageOfStack.message}`;
-            messageBoxHtml.appendChild(individualMessage);
-        });
+        messageBoxHtml.lastElementChild.remove()
     }, 3000);
 }
 

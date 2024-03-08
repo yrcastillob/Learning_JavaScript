@@ -11,7 +11,7 @@
     --clasicGolden: #ffd700;
     --ambar: #ffbf00;
     --goldenRose: #ffbb86;
-    --champang: #ffecb3;
+    --champange: #ffecb3;
     --bronce: #cd7f32;
     --champangLight: #f5f5dc;
     --marfil: #fff8e7;
@@ -44,8 +44,19 @@ body{
 .mainMenu{
     background: var(--goldenRose);
     filter: var(--shadow);
+    background-image: url('./assets/img/texture.svg');
+    background-size: 70rem;
+    background-position: 50%;
+    background-repeat: repeat;
+}
+
+.mainMenu .mainMenu_Container{
+    width: 80%;
+    margin: auto;
     display: flex;
     flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .mainMenu_Card, .ripple-btn{
@@ -55,13 +66,9 @@ body{
     align-items: center;
     text-align: center;
 
-    background-image: url('./assets/img/texture.svg');
-    background-size: 50rem;
-    background-position: 50%;
-    background-repeat: repeat;
     background-color: var(--ambar);
 
-    min-height: 100px;
+    height: 100px;
     max-height: 100px;
     min-width: 70px;
     max-width: 70px;
@@ -82,7 +89,8 @@ body{
 }
 
 .mainMenu_Card:hover{
-    transform:scale(1.05)
+    transform:scale(1.05);
+    transition: 0.3s
 }
 
 .mainMenu_Card:active{
@@ -105,3 +113,135 @@ body{
       opacity: 0;
     }
   }
+
+.mainMenu_Input {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-right: 1rem;
+}
+
+
+.mainMenu_Input input {
+    font-family:  "Domine", serif;
+    margin-top: 0.5rem;
+    border-radius: 0.3rem;
+    border: none;
+    padding: 0.5rem;
+}
+
+
+.mainMenu_Input label{
+    position: absolute;
+    bottom: 55%;
+    font-size: 0.8rem;
+    background-color: white;
+    border-radius: 0.3rem;
+    padding: 0.3rem;
+    transition: 0.5s;
+}
+
+/***************************************CARDS SPACE*****************************************/
+
+.cardsSpace{
+    width: 90%;
+    margin: 1rem auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.playerDeck{
+    display: flex;
+    flex-flow: row;
+    margin: 1rem;
+    border-radius: 0.3rem;
+    padding: 1rem;
+    background-color: var(--champange);
+    filter: var(--shadow);
+}
+
+.playerDeck .playerDeck--title{
+    min-width: 8rem;
+    max-width: 8rem;
+    font-size: 1.2rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PlayerDeck--cardBucket {
+    display: flex;
+    flex-flow: row wrap;
+    flex: 1;
+    justify-content: baseline;
+}
+
+.PlayerDeck--cardBucket .PlayerDeck--cardBucket--Card{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    height: 100px;
+    width: 70px;
+    margin: 0.5rem;
+    border-radius: 0.1rem;
+    filter: var(--shadow);
+    cursor: pointer;
+    padding: 0.5rem;
+    overflow: hidden;
+    background-color: var(--marfil);
+}
+
+.PlayerDeck--cardBucket .PlayerDeck--cardBucket--Card:hover{
+    transform: scale(1.1);
+    transition: 0.4s;
+}
+
+.PlayerDeck--cardBucket .PlayerDeck--cardBucket--Card p:nth-child(2){
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.PlayerDeck--cardBucket .PlayerDeck--cardBucket--Card p:nth-child(3){
+    text-align: right;
+}
+
+.redCard{
+    color: rgb(175, 16, 16);
+}
+
+.blackCard{
+    color: var(--blackmate);
+}
+
+/****************************************MESSAGES SECTION****************************************************/
+.messageBar{
+    width: 100%;
+    position: fixed;
+    z-index: 12;
+}
+
+.errorMessage{
+    background-color: rgb(175, 16, 16);
+    padding: 0.5rem;
+    color: var(--marfil);
+    animation: messagesAnimation 0.4s ease-in 1;
+    width: 100%;
+}
+
+.successMessage{
+    background-color: rgb(66, 175, 16);
+    padding: 0.5rem;
+    color: var(--marfil);
+    animation: messagesAnimation 0.34s ease-in 1;
+    width: 100%;
+}
+
+@keyframes messagesAnimation{
+   from {
+    opacity: 0;
+   }
+   to{
+    opacity: 1;
+   }
+}

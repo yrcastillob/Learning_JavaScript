@@ -13,23 +13,33 @@
 <body>
 
     <nav class="mainMenu">
-        <div>
-            <label for="playerNumber" class="ripple">Number of Players:</label>
-            <input type="text" name="playerNumber" id="playerNumber" placeholder="Player Number">
-        </div>
-        
-        <div>
-            <label for="playerNumber">Cards per Player:</label>
-            <input type="text" name="cardAmount" id="cardAmount" placeholder="Cards Per Player">
-        </div>
-        
-
-        <div class="mainMenu_Card ripple-btn" onclick="createRipple(event)"> 
-            <p class="mainMenu_Card--cardSymbol"> ♠ ♥ </p> 
-            <p class="mainMenu_Card--cardSymbol"> ♦ ♣ </p> 
-            <p class="mainMenu_Card--cardTitle">Deal Cards</p>
-        </div>
+        <div class="mainMenu_Container">
+            <div class="mainMenu_Input">
+                <label for="playerNumber">Number of Players</label>
+                <input type="number" max="52" name="playerNumber" id="playerNumber" placeholder="Number">
+            </div>
+            
+            <div class="mainMenu_Input">
+                <label for="playerNumber">Cards per Player</label>
+                <input type="number" max="52" name="cardAmount" id="cardAmount" placeholder="Number">
+            </div>
+            
+    
+            <div class="mainMenu_Card ripple-btn" onclick="createRipple(event)" id="dealCardButton"> 
+                <p class="mainMenu_Card--cardSymbol"> ♠ ♥ </p> 
+                <p class="mainMenu_Card--cardSymbol"> ♦ ♣ </p> 
+                <p class="mainMenu_Card--cardTitle">Deal Cards</p>
+            </div>
+        </div> 
     </nav>
+    <section class="messageBar" id="messageBar">
+    </section>
 
+    <section class="cardsSpace" id="cardsSpace">
+
+        
+    </section>
+
+    <p>Background image taken from <a href="https://pixabay.com/es/photos/tarjetas-juego-p%C3%B3ker-cima-4423526/">here</a> and </p>
 </body>
 </html>
