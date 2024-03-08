@@ -37,6 +37,7 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed; 
     font-family: "Domine", serif;
+    flex: 1;
 }
 
 /**************************MAIN MENU*****************************/
@@ -217,8 +218,8 @@ body{
 /****************************************MESSAGES SECTION****************************************************/
 .messageBar{
     width: 100%;
-    position: fixed;
     z-index: 12;
+    position: fixed;
 }
 
 .errorMessage{
@@ -244,4 +245,16 @@ body{
    to{
     opacity: 1;
    }
+}
+
+.credits{
+    background-color: var(--oldWhite);
+    width: fit-content;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+    border-radius: 0.3rem;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: auto;
+    margin-bottom: 0.3rem;
 }

@@ -27,8 +27,8 @@ function createCardDeck ( numbers, symbols ) {
 
 function suffleDeck ( deck ) {
     //Mix the deck to assure everyone get differents cards.
-    let index = 0;
-    while (index < deck.length*2){
+    /*let index = 0;
+     while (index < deck.length*2){
         var indexOne = Math.floor(Math.random()*deck.length);
         var indexTwo = Math.floor(Math.random()*deck.length);
         var cardOne = deck[indexOne]
@@ -36,6 +36,11 @@ function suffleDeck ( deck ) {
         insertCardTaken = deck.splice(indexOne,1,cardTwo);
         InsertCardPutt = deck.splice(indexTwo,1,cardOne);
         index = index + 1;
+    } */
+    // Using Fisher-Yates Algorithm
+    for (let i = deck.length -1; i > 0; i--) {
+        const j = Math.floor(Math.random()*(i+1));
+        [deck[i], deck[j]] = [deck[j], deck[i]]
     }
         
 }
