@@ -1,5 +1,25 @@
 /*EXCERCISE TO PRACTICE WITH ARRAYS */
 
+/*
+Transaction analysis
+Imagine you have a list of financial transactions and you want to perform various data processing operations.
+Use the following instructions as a guide to complete the exercise:
+1. Calculate Total Balance: - Use the reduce method to calculate and display the total balance of all
+transactions.
+2. Find the Largest Transaction (Income or Expense): - Utilize the reduce method to find the transaction
+with the largest amount (either income or expense) and display it in the console.
+3. Filter Purchase Transactions: - Use the filter method to obtain and display in the console only the
+purchase transactions (with negative amounts).
+4. Find a Transaction by Description: - Use the find method to search and display in the console a specific
+transaction by its description.
+5. Find the Index of a Transaction by Amount: - Employ the findIndex method to find and display in the
+console the index of a specific transaction by its amount.
+6. Update Transaction Descriptions: - Use the forEach method to update the descriptions of transactions.
+Add the prefix "Expense: " to transactions with negative amounts and "Income: " to transactions with
+positive amounts. Display the updated transactions in the console.
+*/
+
+
 /*ARRAY */
 
 let transactions = [
