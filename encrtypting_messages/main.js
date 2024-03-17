@@ -3,6 +3,7 @@
 let masterTable = [];
 let language = "en";
 let invalidCaracters = [];
+let keyArray = [];
 
 function selectLanguage( stringResponse ){
     switch ( stringResponse ){
@@ -44,13 +45,14 @@ function selectMessageLanguage ( array ){
 
 function asingMasterTable( response ){
     response = Number( response );
-    if ( !isNaN(response) || response === " " || response < 0 || response > 7 || response === undefined || response === null){
+    if ( isNaN(response) || response === " " || response < 1 || response > 8 || response === undefined || response === null){
         optionMessage = [
             {state: false, message: `The selected master table is invalid. It must be a number between 1 and 8.`},
             {state: false, message: `La tabla maestra seleccionada es inválida. Debe ser un número entre 1 y 8.`},
             {state: false, message: `La table principale sélectionnée n'est pas valide. Choisissez un numéro entre 1 et 8.`},
             {state: false, message: `A tabela mestra selecionada não é válida. Escolha um número entre 1 e 8.`}
         ]
+        return false;
     }
     switch ( response ){
         case 1:
@@ -81,41 +83,110 @@ function asingMasterTable( response ){
     }
 }
 
-/* function evaluateValidCaracter( array,event ){
-    let lastElement = array[array.length-1];
-    let valid = masterTable.findIndex(item=>item===lastElement);
-    if (valid === -1 && (event.keyCode === 46 || event.keyCode === 8) ){
-        invalidCaracters.pop();
-        invalidHtml.innerHTML = invalidCaracters;
-    }
-    else if ( valid === -1 ){
-        invalidCaracters.push(lastElement);
-        invalidHtml.innerHTML = invalidCaracters;
+
+function evaluateValidCaracter( string, verificationType ) {
+    verificationType = Number(verificationType);
+    switch (verificationType){
+        case 1:
+            invalidCaracters = []; 
+            array = string.split('');
+            array.forEach(character => {
+                let valid = masterTable.findIndex(item => item === character); 
+                if (valid === -1) {
+                    invalidCaracters.push(character); 
+                }
+            });
+            invalidHtml.innerHTML = invalidCaracters.join(' - '); 
+            break;
+        case 2:
+            let privateInvalidCharacters = []
+    
+            array = string.split('');
+            
+            array.forEach(character => {
+                let valid = masterTable.findIndex(item => item === character); 
+                if (valid === -1) {
+                    privateInvalidCharacters.push(character); 
+                }
+            });
+            
+
+            if ( privateInvalidCharacters.length > 0 ){
+                optionMessage = [
+                    {state: false, message: `The key contains invalid characters: ${privateInvalidCharacters.join(' - ')}`},
+                    {state: false, message: `La llave contiene carácteres inválidos: ${privateInvalidCharacters.join(' - ')}`},
+                    {state: false, message: `La clé de chiffrement contient des caractères invalides : ${privateInvalidCharacters.join(' - ')}`},
+                    {state: false, message: `A chave de criptografia contém caracteres inválidos: ${privateInvalidCharacters.join(' - ')}`}
+                ]
+                console.log(optionMessage[1])
+                return {state: false, array: array};
+            } 
+            else{
+                return {state: true, array: array};
+            }
     }
     
 }
- */
 
-function evaluateValidCaracter(array) {
-    invalidCaracters = []; 
-    array = array.split('');
-    array.forEach(character => {
-        let valid = masterTable.findIndex(item => item === character); 
-        if (valid === -1) {
-            invalidCaracters.push(character); 
-        }
-    });
-    invalidHtml.innerHTML = invalidCaracters.join(' - '); 
+function createKey( string ){
+    
+    let validKey = evaluateValidCaracter( string, 2 );
+    if (validKey.state){
+        keyArray = validKey.array.map(character => masterTable.findIndex(item => item === character));
+        console.log(keyArray)
+    }
+    
 }
 
 
+function encryptMessage( string ){
+
+    let validMessage = evaluateValidCaracter( string, 2 );
+
+    if( validMessage.state ){
+
+        originalValidMessage = validMessage.array;
+        originalKey = keyArray.map(key => key);
+        if ( originalKey.length < 0 ){
+            optionMessage = [
+                {state: false, message: `The key is empty, please create a key.`},
+                {state: false, message: `La llave está vacía, por favor cree una llave.`},
+                {state: false, message: `La clé de chiffrement est vide, veuillez en créer une.`},
+                {state: false, message: `A chave de criptografia está vazia, por favor, crie uma.`}
+            ]
+            console.log(optionMessage[1])
+            return false
+        } 
+
+        messageIndex = validMessage.array.map(character => masterTable.findIndex(item => item === character));
+        let newMessageEncrypted = []
+        originalValidMessage.forEach(
+            character =>{
+                if (originalKey.length < 1){
+                    originalKey = keyArray.map(key => key);
+                }
+                let item = originalKey.shift();
+                newMessageEncrypted.push({character, item});
+            }
+        )
+        console.log(newMessageEncrypted)
+        
+    }
+}
+
+asingMasterTable( 8 )
+console.log(masterTable)
 let inputHtml = document.getElementById("phraseTest");
 let invalidHtml = document.getElementById("invalidTest");
 invalidHtml.innerHTML = "";
 
-asingMasterTable( 8 )
+
 
 inputHtml.addEventListener("input"||"keydown", function(){
     
     evaluateValidCaracter( inputHtml.value )
 })
+
+createKey( "This is me trying" );
+console.log(keyArray)
+encryptMessage( "Holaa, soy Taylor Me gusta júgár." )
