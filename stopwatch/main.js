@@ -1,24 +1,37 @@
-/**/
+/*HTML VARIABLES*/
 const hoursHtml = document.getElementById("hours");
 const minutesHtml = document.getElementById("minutes");
 const secondsHtml = document.getElementById("seconds");
-const hoursInputHtml = document.getElementById("hoursInput");
-const minutesInputHtml = document.getElementById("minutesInput");
-const secondsInputHtml = document.getElementById("secondsInput");
+
 let intervalId = null;
 
-minutesHtml.innerHTML = "0";
-hoursHtml.innerHTML = "0";
-secondsHtml.innerHTML = "0";
+minutesHtml.placeholder = "00";
+hoursHtml.placeholder = "00";
+secondsHtml.placeholder = "00";
+
+listTimes = [hoursHtml,minutesHtml,secondsHtml];
+
+/*VARIABLES*/
+const modeType = 1;
+
+function assignModeType( mode ){
+    if ( mode === 1 ){
+        listTimes.forEach(element => {
+            element.disabled = true;
+        });
+    }
+}
+
+assignModeType( 1 )
 
 function stopWatch() {
     let seconds = 0;
     let minutes = 0;
     let hours = 0;
 
-    secondsHtml.innerHTML = seconds < 10 ? '0' + seconds : seconds;
-    minutesHtml.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-    hoursHtml.innerHTML = hours < 10 ? '0' + hours : hours;
+    secondsHtml.placeholder  = seconds < 10 ? '0' + seconds : seconds;
+    minutesHtml.placeholder = minutes < 10 ? '0' + minutes : minutes;
+    hoursHtml.placeholder = hours < 10 ? '0' + hours : hours;
 
     const intervalId = setInterval(() => {
         seconds++;
@@ -31,13 +44,14 @@ function stopWatch() {
             }
         }
 
-        secondsHtml.innerHTML = seconds < 10 ? '0' + seconds : seconds;
-        minutesHtml.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-        hoursHtml.innerHTML = hours < 10 ? '0' + hours : hours;
+        secondsHtml.placeholder  = seconds < 10 ? '0' + seconds : seconds;
+        minutesHtml.placeholder = minutes < 10 ? '0' + minutes : minutes;
+        hoursHtml.placeholder = hours < 10 ? '0' + hours : hours;
     }, 1000);
 
     return intervalId;
 }
+
 
 
 
@@ -52,12 +66,9 @@ function useStopWatch( boolean ){
 
 
 function restart(){
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-    secondsHtml.innerHTML = seconds;
-    minutesHtml.innerHTML = minutes;
-    hoursHtml.innerHTML = hours;
+    minutesHtml.placeholder = "00";
+    hoursHtml.placeholder = "00";
+    secondsHtml.placeholder = "00";
     useStopWatch( false );
 }
 

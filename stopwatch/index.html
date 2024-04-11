@@ -7,16 +7,20 @@
     <title>StopWatch</title>
 </head>
 <body>
-    <div >
-        <div><span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span></div>
-    </div>
+
+    <main>
+
+        <div>
+            <div >
+                <div><input id="hours" type="number" placeholder="0"></input>:<input id="minutes" type="number" placeholder="0"></input>:<input id="seconds" type="number" placeholder="0"></input></div>
+            </div>
+        </div>
+
+    </main>
+
     <div onclick="useStopWatch(true)">Start</div>
     <div onclick="useStopWatch(false)">Stop</div>
     <div onclick="restart()">Restart</div>
 
-    <div >
-        <div><input id="hoursInput" type="number" placeholder="0"></input>:<input id="minutesInput" type="number" placeholder="0"></input>:<input id="secondsInput" type="number" placeholder="0"></input></div>
-    </div>
-    <div onclick="timer()">Timer</div>
 </body>
 </html>
