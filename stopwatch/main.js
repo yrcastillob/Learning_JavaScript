@@ -2,8 +2,8 @@
 const hoursHtml = document.getElementById("hours");
 const minutesHtml = document.getElementById("minutes");
 const secondsHtml = document.getElementById("seconds");
-
-let intervalId = null;
+const startButton = document.getElementById("startButton");
+const resetButton = document.getElementById("resetButton");
 
 minutesHtml.placeholder = "00";
 hoursHtml.placeholder = "00";
@@ -12,64 +12,111 @@ secondsHtml.placeholder = "00";
 listTimes = [hoursHtml,minutesHtml,secondsHtml];
 
 /*VARIABLES*/
-const modeType = 1;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+let intervalId;
+let pausedTime = 0;
+let isPaused = false;
+let startButtonClicked = true; 
 
+/*FUNCTIONS*/
 function assignModeType( mode ){
     if ( mode === 1 ){
         listTimes.forEach(element => {
             element.disabled = true;
         });
+        startButton.innerHTML = "Start";
+        startButton.onclick = playButtonStopWatchMode; 
     }
 }
+
 
 assignModeType( 1 )
 
-function stopWatch() {
-    let seconds = 0;
-    let minutes = 0;
-    let hours = 0;
 
-    secondsHtml.placeholder  = seconds < 10 ? '0' + seconds : seconds;
-    minutesHtml.placeholder = minutes < 10 ? '0' + minutes : minutes;
-    hoursHtml.placeholder = hours < 10 ? '0' + hours : hours;
+function playButtonStopWatchMode() {
+    startButtonClicked = !startButtonClicked; 
 
-    const intervalId = setInterval(() => {
-        seconds++;
-        if (seconds === 60) {
-            seconds = 0;
-            minutes++;
-            if (minutes === 60) {
-                minutes = 0;
-                hours++;
-            }
-        }
-
-        secondsHtml.placeholder  = seconds < 10 ? '0' + seconds : seconds;
-        minutesHtml.placeholder = minutes < 10 ? '0' + minutes : minutes;
-        hoursHtml.placeholder = hours < 10 ? '0' + hours : hours;
-    }, 1000);
-
-    return intervalId;
+    if (startButtonClicked) {
+        startButton.innerHTML = "Pause";
+        useStopWatch(1); 
+    } else {
+        startButton.innerHTML = "Start";
+        useStopWatch(2);
+    }
 }
 
+function updateDisplay() {
+    secondsHtml.placeholder = seconds < 10 ? '0' + seconds : seconds;
+    minutesHtml.placeholder = minutes < 10 ? '0' + minutes : minutes;
+    hoursHtml.placeholder = hours < 10 ? '0' + hours : hours;
+}
 
+function stopWatch() {
+    return setInterval(() => {
+        if (!isPaused) {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+            updateDisplay();
+        }
+    }, 1000);
+}
 
+function pauseStopWatch() {
+    clearInterval(intervalId);
+    pausedTime = hours * 3600 + minutes * 60 + seconds;
+    isPaused = true;
+}
 
-function useStopWatch( boolean ){
-    if(boolean){
-        intervalId = stopWatch();
-    }else{
-        clearInterval(intervalId);
-        intervalId = null;
+function restartStopWatch() {
+    isPaused = false;
+    seconds = pausedTime % 60;
+    minutes = Math.floor((pausedTime % 3600) / 60);
+    hours = Math.floor(pausedTime / 3600);
+    clearInterval(intervalId);
+    intervalId = stopWatch(); // Aquí asignamos el nuevo intervalo a intervalId
+}
+
+function useStopWatch(selection) {
+    switch (selection) {
+        case 1:
+            isPaused = false;
+            clearInterval(intervalId);
+            intervalId = stopWatch();
+            break;
+        case 2:
+            pauseStopWatch();
+            break;
+        case 3:
+            restartStopWatch();
+            break;
+        case 4:
+            resetStopWatch();
+            break;
     }
 }
 
 
-function restart(){
+
+function resetStopWatch(){
     minutesHtml.placeholder = "00";
     hoursHtml.placeholder = "00";
     secondsHtml.placeholder = "00";
-    useStopWatch( false );
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    isPaused = true;
+    intervalId = null;
+    clearInterval(intervalId);
+    updateDisplay()
 }
 
 function timer() {
@@ -88,9 +135,7 @@ function timer() {
     if (isNaN(hours) || hours === "" || hours === null || hours === undefined) {
         hours = 0;
     }
-    secondsHtml.innerHTML = seconds < 10 ? '0' + seconds : seconds;
-    minutesHtml.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-    hoursHtml.innerHTML = hours < 10 ? '0' + hours : hours;
+    updateDisplay()
     
     if ( hours != 0 || seconds != 0 || minutes != 0 ){
         const intervalId = setInterval(() => {
@@ -105,9 +150,7 @@ function timer() {
                 }
             }
     
-            secondsHtml.innerHTML = seconds < 10 ? '0' + seconds : seconds;
-            minutesHtml.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-            hoursHtml.innerHTML = hours < 10 ? '0' + hours : hours;
+            updateDisplay()
     
             if (hours === 0 && minutes === 0 && seconds === 0) {
                 clearInterval(intervalId);
