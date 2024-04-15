@@ -4,12 +4,25 @@ const minutesHtml = document.getElementById("minutes");
 const secondsHtml = document.getElementById("seconds");
 const startButton = document.getElementById("startButton");
 const resetButton = document.getElementById("resetButton");
+const stopwatchmode = document.getElementById("stopwatchmode");
+const timermode = document.getElementById("timermode");
+const progressbar = document.getElementById("progressbar");
+
+const play = document.createElement("img");
+play.src = "./assets/img/play.svg";
+
+const pause = document.createElement("img");
+pause.src = "./assets/img/pause.svg";
+
+const click = document.createElement("audio");
+click.src = "./assets/sounds/click.mp3";
 
 minutesHtml.value = "00";
 hoursHtml.value = "00";
 secondsHtml.value = "00";
 
 listTimes = [hoursHtml,minutesHtml,secondsHtml];
+listButtons = [startButton,  resetButton, stopwatchmode, timermode];
 
 /****************************** VARIABLES ******************************/
 let seconds = 0;
@@ -19,6 +32,8 @@ let intervalId;
 let pausedTime = 0;
 let isPaused = false;
 let startButtonClicked = true; 
+let totalSeconds = 0;
+let totaltimerwidth = 100;
 
 /****************************** FUNCTIONS ******************************/
 
@@ -31,22 +46,27 @@ function assignModeType( mode ){
         • Existance of global variables listTimes, resetButton, startButton, startButtonClicked.
         • Existance of functions useStopWatch() and playButtonStopWatchMode()
     */
+    startButton.innerHTML = "";
     if ( mode === 1 ){
         listTimes.forEach(element => {
             element.disabled = true;
         });
         resetButton.onclick = () => useStopWatch(3);
-        startButton.innerHTML = "Start";
+        startButton.appendChild(play);
         startButtonClicked = false;
         startButton.onclick = playButtonStopWatchMode; 
+        stopwatchmode.classList.add("maincontainer_selectionmode--optionactive")
+        timermode.classList.remove("maincontainer_selectionmode--optionactive")
     } else if ( mode === 2 ){
         listTimes.forEach(element => {
             element.disabled = false;
         });
         resetButton.onclick = () => useStopWatch(3);
-        startButton.innerHTML = "Start";
+        startButton.appendChild(play);
         startButtonClicked = false;
         startButton.onclick = playButtonTimerhMode;
+        stopwatchmode.classList.remove("maincontainer_selectionmode--optionactive")
+        timermode.classList.add("maincontainer_selectionmode--optionactive")
     }
 }
 
@@ -63,10 +83,12 @@ function playButtonStopWatchMode() {
     startButtonClicked = !startButtonClicked; 
 
     if (startButtonClicked) {
-        startButton.innerHTML = "Pause";
+        startButton.innerHTML = "";
+        startButton.appendChild(pause);
         useStopWatch(1); 
     } else {
-        startButton.innerHTML = "Start";
+        startButton.innerHTML = "";
+        startButton.appendChild(play);
         useStopWatch(2);
     }
 }
@@ -90,6 +112,7 @@ function stopWatch() {
                 }
             }
             updateDisplay();
+            updateprogressbar( 1 )
         }
     }, 1000);
 }
@@ -119,7 +142,11 @@ function resetStopWatch(){
     clearInterval(intervalId);
     intervalId = null;
     updateDisplay();
+    updateprogressbar( 1 )
     isPaused = true;
+    startButton.innerHTML = "";
+    startButton.appendChild(play);
+    totaltimerwidth = 100;
 }
 
 function useStopWatch(selection) {
@@ -171,8 +198,11 @@ function timer() {
     if (isNaN(hours) || hours === "" || hours === null || hours === undefined) {
         hours = 0;
     }
+    calculateSecondsTimer()
     updateDisplay()
+    updateprogressbar( 2 )
     
+
     if ( hours != 0 || seconds != 0 || minutes != 0 ){
         return intervalId = setInterval(() => {
             if (!isPaused) {
@@ -186,11 +216,15 @@ function timer() {
                         hours--;
                     }
                 }
-        
+                
                 updateDisplay()
+                updateprogressbar( 2 )
         
                 if (hours === 0 && minutes === 0 && seconds === 0) {
                     clearInterval(intervalId);
+                    totaltimerwidth = 100;
+                    startButton.innerHTML = "";
+                    startButton.appendChild(play);
                 }
             }
             
@@ -234,10 +268,12 @@ function playButtonTimerhMode() {
     startButtonClicked = !startButtonClicked; 
 
     if (startButtonClicked) {
-        startButton.innerHTML = "Pause";
+        startButton.innerHTML = "";
+        startButton.appendChild(pause);
         useTimer(1); 
     } else {
-        startButton.innerHTML = "Start";
+        startButton.innerHTML = "";
+        startButton.appendChild(play);
         useTimer(2);
     }
 }
@@ -254,7 +290,44 @@ function updateDisplay() {
     secondsHtml.value = seconds < 10 ? '0' + seconds : seconds;
     minutesHtml.value = minutes < 10 ? '0' + minutes : minutes;
     hoursHtml.value = hours < 10 ? '0' + hours : hours;
+    
+}
+
+function calculateSecondsTimer(){
+    /*
+    Function to save and update the variable totalSeconds with the total seconds on minutes, hours.
+    */
+    totalSeconds = hours * 3600 + minutes * 60 + seconds;
+}
+
+function updateprogressbar( typeUpdate ){
+    /*
+    Function to update the progress bar.
+    Params:
+        • typeUpdate: int 1 or 2, 1 to update progress bar with stop watch and 2 for timer.
+    Result:
+        • If selected 1 with of progress bar will go from 0 to 100% on the contrary if selected number 2 it will go from 100% to 0%.
+    */
+    switch ( typeUpdate ){
+        case 1:
+            unit = 100 / 60;
+            progressbar.style.width = `${seconds*unit}%`;
+            break
+        case 2:
+            unit = (1/totalSeconds)*100;
+            progressbar.style.width = `${totaltimerwidth}%`;
+            totaltimerwidth = totaltimerwidth - unit;
+            break
+    }
 }
 
 
-assignModeType( 2 )
+function playClick(){
+    click.play();
+}
+
+listButtons.forEach(button => {
+    button.addEventListener("click", playClick);
+});
+
+assignModeType( 1 )
