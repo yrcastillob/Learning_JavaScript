@@ -20,4 +20,6 @@ console.log(Variable2)
 
 Variable2.param4 = "param4";
 
+
 console.log(Variable2)
+
